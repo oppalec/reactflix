@@ -16,7 +16,7 @@ const MovieCard = ({ movie }) => {
     }
 
     return (
-        <div className="col-lg-3 col-md-3 col-2 my-4">
+        <div className="col-lg-3 col-md-2 col-sm-2 my-4">
             <div className="card">
                 {movie.poster_path ? renderPoster() : renderNotFoundImage()}
                 <div className="card-body">
