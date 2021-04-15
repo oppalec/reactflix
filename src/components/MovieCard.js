@@ -8,11 +8,11 @@ const MovieCard = ({ movie }) => {
 
 
     function renderNotFoundImage() {
-        return <img src={notFoundUrl} class="card-img-top" alt={movie.original_title}/>
+        return <img src={notFoundUrl} className="card-img-top" alt={movie.original_title}/>
     }
 
     function renderPoster() {
-        return <img src={posterUrl} class="card-img-top" alt={movie.original_title}/>
+        return <img src={posterUrl} className="card-img-top" alt={movie.original_title}/>
     }
 
     return (
