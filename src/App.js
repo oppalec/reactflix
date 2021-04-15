@@ -19,6 +19,7 @@ function App() {
       fetch(`https://api.themoviedb.org/3/search/movie?api_key=ce70936c03b59d8df306b2381b8e3dfc&language=en-US&query=${searchText}}&page=1&include_adult=false`)
         .then(response => response.json())
         .then(data => {
+          console.log("called")
           setSearchResults(data.results);
         })
     }

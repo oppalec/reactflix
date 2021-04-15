@@ -1,61 +1,51 @@
-import Hero from './Hero'
-import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import Hero from './Hero';
+import MovieCard from './MovieCard';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const TopMoviesView = () => {
-    const { id } = useParams()
-    console.log(id)
-    const [movieDetails, setMovieDetails] =useState({})
-    const [isLoading, setIsLoading] = useState(true)
-
-    const notFoundUrl = 'https://via.placeholder.com/304x456?text=No+%20+Poster+%20+Available';
+    let page = 1
+    const title = `Top Movies (Page ${page})`
+    const [topMovies, setTopMovies] = useState([]);
 
     useEffect(() => {
-        fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=ce70936c03b59d8df306b2381b8e3dfc&language=en-US`)
-            .then(response => response.json())
-            .then(data => {
-                setTimeout(() => {
-                    setMovieDetails(data)
-                    setIsLoading(false)
-                }, 1500)
-            })
-    }, [id])
-
-    function renderNotFoundImage() {
-        return <img src={notFoundUrl} class="card-img-top" alt={movieDetails.original_title} className="img-fluid shadow rounded"/>
+        fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=ce70936c03b59d8df306b2381b8e3dfc&language=en-US&page=${page}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log("called data")
+            setTopMovies(data.results);
+        })
+    }, [page]);
+    
+    const topMoviesHtml = topMovies.map((obj, i) => {
+        return <MovieCard movie={obj} key={i} />
+    })
+    
+    function renderResults() {
+        // console.log("results found" + resultsHtml);
+        return <div className = "container">
+            <div className = "row">
+                {topMoviesHtml}
+            </div>
+        </div>
     }
 
-    function renderPoster(posterPath) {
-        return <img src ={posterPath} alt={movieDetails.original_title} className="img-fluid shadow rounded"/>
+    function renderNoResults() {
+        // console.log("called no results");
+        return <div className="p-5 hero-container">
+            <h1 className="hero-text">No results found!</h1>
+            <Link to="/">
+            Go Home
+            </Link>
+        </div>     
     }
 
-    function renderMovieDetails() {
-        if(isLoading) {
-            return <Hero text = "Loading..." />
-        }
-        if (movieDetails) {
-            const posterPath = `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`
-            const backdropPath = `https://image.tmdb.org/t/p/original${movieDetails.backdrop_path}`
-            return (
-            <>
-                <Hero text = "Top Movies" />
-                <div className = "container my-5">
-                    <div className = "row">
-                        <div className="col-md-3">
-                            {movieDetails.poster_path ? renderPoster(posterPath) : renderNotFoundImage()}
-                        </div>
-                        <div className="col-md-9">
-                            <h2>{movieDetails.original_title}</h2>
-                            <p class="lead">{movieDetails.overview}</p>
-                        </div>
-                    </div>
-                </div>
-            </>
-            )
-        }
-    }
-
-    return renderMovieDetails()
+    return (
+        <>
+            <Hero text = {title}/>
+            {Array.isArray(topMoviesHtml) && topMoviesHtml.length ? renderResults() : renderNoResults()}
+        </>
+    );
 };
 
 export default TopMoviesView;
