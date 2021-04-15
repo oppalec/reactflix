@@ -52,7 +52,8 @@ const Navbar = ({searchText, setSearchText}) => {
               onChange={updateSearchText}
               />
               <button className="btn btn-outline-success" 
-                onClick={searchMovies}>Search</button>
+                onClick={searchMovies}
+                value={searchText}>Search</button>
             </form>
           </div>
         </div>
