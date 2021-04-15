@@ -4,16 +4,17 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const TopMoviesView = () => {
-    let page = 1
+    const [page, setPage] = useState(1)
     const title = `Top Movies (Page ${page})`
-    const [topMovies, setTopMovies] = useState([]);
-
+    const [topMovies, setTopMovies] = useState([])
+    const [totalPages, setTotalPages] = useState(0);
     useEffect(() => {
         fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=ce70936c03b59d8df306b2381b8e3dfc&language=en-US&page=${page}`)
         .then(response => response.json())
         .then(data => {
             console.log("called data")
-            setTopMovies(data.results);
+            setTopMovies(data.results)
+            setTotalPages(data.total_pages)
         })
     }, [page]);
     
@@ -40,9 +41,32 @@ const TopMoviesView = () => {
         </div>     
     }
 
+    function renderNextResults() {
+        if (page < totalPages) {
+            let new_page = page
+            new_page++
+            setPage(new_page)
+        }
+    }
+
+    function renderPrevResults() {
+        if (page != 1) {
+            let new_page = page
+            new_page--
+            setPage(new_page)
+        }
+    }
+
     return (
         <>
             <Hero text = {title}/>
+            {page > 1 ? 
+                <div>
+                    <button className = "btn btn-primary my-3 mx-5" onClick={renderPrevResults}>Previous Page</button>
+                    <button className = "btn btn-primary" onClick={renderNextResults}>Next Page</button>
+                </div> :
+                <button className = "btn btn-primary my-3 mx-5" onClick={renderNextResults}>Next Page</button>
+            }
             {Array.isArray(topMoviesHtml) && topMoviesHtml.length ? renderResults() : renderNoResults()}
         </>
     );

@@ -13,6 +13,7 @@ function App() {
 
   const [searchResults, setSearchResults] = useState([]);
   const [searchText, setSearchText] = useState('');
+  const page = 1;
 
   useEffect(() => {
     if (searchText) {
