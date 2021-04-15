@@ -3,9 +3,16 @@ import { useHistory, Link } from 'react-router-dom';
 const Navbar = ({searchText, setSearchText}) => {
     const history = useHistory();
     const updateSearchText = (e) => {
+      // history.push('/search')
+      setSearchText(e.target.value)
+    }
+
+    function searchMovies(e) {
+      e.preventDefault();
       history.push('/search')
       setSearchText(e.target.value)
     }
+
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
@@ -44,7 +51,8 @@ const Navbar = ({searchText, setSearchText}) => {
               value={searchText}
               onChange={updateSearchText}
               />
-              <button className="btn btn-outline-success" type="submit">Search</button>
+              <button className="btn btn-outline-success" 
+                onClick={searchMovies}>Search</button>
             </form>
           </div>
         </div>
