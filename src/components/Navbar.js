@@ -29,7 +29,7 @@ const Navbar = ({searchText, setSearchText}) => {
                 <Link className="nav-link" to="/about">About</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/top-movies">Top Movies</Link>
+                <Link className="nav-link" to="/top-movies/1">Top Movies</Link>
               </li>
               {/* <li className="nav-item dropdown">
                 <Link className="nav-link dropdown-toggle" to="somewhere.html" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
